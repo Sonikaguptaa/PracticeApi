@@ -12,8 +12,8 @@ export function ChoseSubject(){
     };
 
     return (
-      <div> 
-         <select value={subject} onChange={handleOptionChange}>
+      <div className="containerChosebox"> 
+         <select className="Chosebox" value={subject} onChange={handleOptionChange}>
             {subjects.map((sub)=>{
             
               return(<option key={sub}>{sub}</option>)

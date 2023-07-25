@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
-import {  useParams } from "react-router-dom";
+
+import {  useNavigate, useParams } from "react-router-dom";
 export function MyBook(){
-
+    const navigate=useNavigate()
     const [book,setbook]=useState([])
     const params=useParams()
     async function getbook(subject){
@@ -12,14 +12,11 @@ export function MyBook(){
          const response = await fetch(url);
          const book = await response.json()
          console.log(book.works)
-         const OurBooks=book.works.map((element)=> {    
-            return (
-            {img:`https://covers.openlibrary.org/b/id/${element.cover_id}-L.jpg`,
-             book:element.title   
-            }
-            )})
-         console.log(OurBooks)
-         setbook(prev=>OurBooks);
+         const OurBooks=book.works.filter((element)=> 
+              element.lending_edition==params.symbol2 
+            )
+         console.log(OurBooks[0],"heerere---------------------")
+         setbook(prev=>OurBooks[0]);
        } catch (error) {
          console.error(error); 
        } 
@@ -29,17 +26,20 @@ export function MyBook(){
       }, [])
     return (
         <div>
-            <Link to="/"><div>GO BACK</div></Link>
+            <button onClick={()=>navigate(`/${params.symbol}`)}>Go Back</button>
             <div>
-                {book.map((element)=>
-               { return (
                 
-                    <div key={element.book}>
-                        <img src={element.img} alt="" /> 
-                        {element.book}
-                    </div>
-                )}
-                )}
+               {console.log(book)}
+
+                
+                    {<div>
+                    <img src={`https://covers.openlibrary.org/b/id/${book.cover_id}-L.jpg`}/>
+                    <p>{book.title}</p>
+                    <p>first_publish_year :
+                      {book.first_publish_year}</p>
+                    <p></p>
+                    </div>}
+
             </div>
         </div>
     )
