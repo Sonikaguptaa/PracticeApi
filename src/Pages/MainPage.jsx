@@ -8,16 +8,16 @@ export function MainPage(){
     const params=useParams()
     const navigate=useNavigate() 
     async function getData(subject){
-        const url = `http://openlibrary.org/subjects/${subject}.json?`;
+        const url = `https://www.googleapis.com/books/v1/volumes?q=${subject}&filter=ebooks&key=AIzaSyBERYVOt_pqetW6ry2JwTUoJQS0M55oVfg&maxResults=40`;
        try {
          const response = await fetch(url);
          const data = await response.json()
-         console.log(data.works)
-         const OurBooks=data.works.map((element)=> {    
+         console.log(data.items)
+         const OurBooks=data.items.map((element)=> {    
             return (
-            {img:`https://covers.openlibrary.org/b/id/${element.cover_id}-L.jpg`,
-             book:element.title ,
-             id:element.lending_edition
+            {img:element.volumeInfo.imageLinks.thumbnail,
+             book:element.volumeInfo.title ,
+             id:element.id
   
             }
             )})
@@ -38,7 +38,7 @@ export function MainPage(){
                 {data.map((element)=>
                { return (
                     
-                    <div key={element.book} className="oneBook">
+                    <div key={element.id} className="oneBook">
                         <button onClick={(event)=>{
                             navigate(`/${params.symbol}/${event.target.id}`)
                         }}>

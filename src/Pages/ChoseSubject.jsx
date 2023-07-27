@@ -13,12 +13,8 @@ export function ChoseSubject(){
 
     return (
       <div className="containerChosebox"> 
-         <select className="Chosebox" value={subject} onChange={handleOptionChange}>
-            {subjects.map((sub)=>{
-            
-              return(<option key={sub}>{sub}</option>)
-           })}
-        </select>
+         <input className="Chosebox" value={subject} onChange={handleOptionChange}>
+        </input>
         <Link to={`/${subject}`}> 
             <button  > Get Your Books</button>
         </Link>
